@@ -1,0 +1,19 @@
+.selected-options-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .selected-option {
+    margin-right: 10px;
+  }
+  s
+  .selected-option:last-child {
+    margin-right: 0;
+  }
+  
+  .selected-option span {
+    display: inline-block;
+  }
+  body{
+    background-color: red;
+  }

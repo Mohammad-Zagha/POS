@@ -2,11 +2,14 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap';
 
+
+
 const Home = () => {
  
 
   const [currentProducts, setCurrentProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
+
 
   useEffect(() => {
     async function fetchData() {
@@ -44,7 +47,7 @@ const Home = () => {
     });
   
     const product = {
-      barcode: barcodeCode,
+      barcode: container.barcodes,
       name: result.name,
       choosenContainer: container.name,
       price: container.price,
@@ -53,17 +56,21 @@ const Home = () => {
     };
   
     return product;
-  };
-
+  }
 
   function SearchAndAddProduct(barcodeCode) {
     // Search allProducts array
     const product = searchByBarcode(allProducts, barcodeCode);
+
   
     if (product !== null) {
+      const index = currentProducts.findIndex(product => {
+        return product.barcode.some(barcodeObj => barcodeObj.code === barcodeCode);
+      });
+      
       // Check if product already exists in currentProducts array
-      const index = currentProducts.findIndex(p => p.barcode === barcodeCode);
-  const updatedProducts = [...currentProducts];
+ //     const index = currentProducts.findIndex(p => p.barcode === barcodeCode);
+   const updatedProducts = [...currentProducts];
 
       if (index !== -1) {
         console.log(updatedProducts[index].choosenContainer)
@@ -85,13 +92,12 @@ const Home = () => {
         // Add product to currentProducts array
         setCurrentProducts([...currentProducts, product]);
       }
+      
     } else {
       console.log("Product not found.");
     }
+   
   }
-
- 
-
 
   function handleEnterKeyPress(event) {
     if (event.key === 'Enter') {
@@ -108,6 +114,7 @@ const Home = () => {
 
         // Update quantity and containers
         const updatedProducts = [...currentProducts];
+        updatedProducts[index].barcode=container.barcodes;
         updatedProducts[index].price =container.price;
         updatedProducts[index].choosenContainer = container.name;
         setCurrentProducts(updatedProducts);
@@ -118,6 +125,7 @@ const Home = () => {
 
   return (
     <>
+  
       <div className="d-flex container" dir="rtl">
         <div className="d-flex w-50">
           <button
@@ -172,7 +180,8 @@ const Home = () => {
               </h5>
               <hr />
               <h3 className="price text-center">
-                $ <span id="Price">25</span>
+             
+                 <span id="Price">  </span>
               </h3>
               <hr />
               <div id="Order-Status" className="shadow">
@@ -233,8 +242,11 @@ const Home = () => {
         </div>
       </div>
       <div className="container my-3 container-menu-btns" dir="rtl">
-        <button type="button" className="btn btn-success m-2 shadow">
-          Beef
+        <button 
+      
+        type="button"
+         className="btn btn-success m-2 shadow">
+          Add Item
         </button>
 
 
