@@ -15,9 +15,9 @@ const Home = () => {
     async function fetchData() {
       try {
         const response = await axios.get('/home/All/get');
-        console.log(response.data);
+    
         setAllProducts(response.data);
-        console.log(allProducts);
+      
       } catch (error) {
         console.log(error);
       }

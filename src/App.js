@@ -1,16 +1,17 @@
 //import {BrowserRouter,Routes,Route} from 'react-router-dom'
 import Home from './pages/Home'
-import Input from './components/input';
+import
 
 
 function App() {
   return (
     <div className="App">
+      <Home />
    
-    <Input></Input>
   
     </div>
   );
 }
 
 export default App;
+
