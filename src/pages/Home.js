@@ -1,12 +1,19 @@
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap';
+import { useLogout } from '../hooks/useLogout'
+import { useAuthContext } from '../hooks/useAuthContext';
 
+  
 
 
 const Home = () => {
+  const userObj=useAuthContext();
  
-
+  const { logout } = useLogout();
+  const handleLogoutClick = () => {
+    logout()
+  }
   const [currentProducts, setCurrentProducts] = useState([]);
   const [allProducts, setAllProducts] = useState([]);
 
@@ -14,16 +21,28 @@ const Home = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('/home/All/get');
+       
+        const response = await axios.get('/home/All/get',
+        {
+          headers: {
+            'Authorization' : `Bearer ${userObj.user.token}`
+          }
+        });
     
         setAllProducts(response.data);
-      
+     
+        
       } catch (error) {
         console.log(error);
       }
     }
-    fetchData();
+    if(userObj.user)
+    {
+      fetchData()
+     
+    }
   }, []);
+ 
 
  
 
@@ -128,6 +147,7 @@ const Home = () => {
   
       <div className="d-flex container" dir="rtl">
         <div className="d-flex w-50">
+        
           <button
             type="button"
             className="btn btn-warning mt-5 mb-1 shadow Fawater-btn"
@@ -142,6 +162,8 @@ const Home = () => {
             placeholder="استعلام"
             onKeyDown={handleEnterKeyPress}
           />{" "}
+                <p className="font-weight-bold" onClick={handleLogoutClick}>logout</p>
+
         </div>
       </div>
 
